@@ -38,7 +38,8 @@ EXPORT_ULONGLONG GetAddress(int magic, int number)
 	if (number > 10)
 		return 0xFFFF;
 
-	ULONGLONG offset = (ULONGLONG)(&BaseOffset);// + (number * sizeof(CopyStruct));
+	//ULONGLONG offset = (ULONGLONG)(&BaseOffset);
+	ULONGLONG offset = (ULONGLONG)(&BaseOffset) + (number * sizeof(CopyStruct));
 	return offset;
 }
 
