@@ -80,10 +80,17 @@ EXPORT_INT GetOffset(int magic)
 	return stat;
 }
 
-EXPORT_VOID ReadMemory(int magic, CopyStruct* str, int number)
+EXPORT_VOID CopyDriverMemory(int magic, CopyStruct* str, int number)
 {	
 	if (magic != MAGIC)
 		return;
+
+	*(CopyStruct*)GetAddress(MAGIC, number) = *str;
+
+	while ((*(CopyStruct*)GetAddress(MAGIC, number)).handled != 1) 
+	{
+		Sleep(1);
+	}
 
 	*str = *(CopyStruct*)GetAddress(MAGIC, number);
 

@@ -2,8 +2,6 @@
 
 typedef struct _CopyStruct
 {
-	INT handled;
-
 	INT dpid;
 	ULONGLONG daddr;
 
@@ -13,6 +11,8 @@ typedef struct _CopyStruct
 	INT size;
 
 	char buffer[1024];
+
+	INT handled;
 } CopyStruct;
 
 #define EXPORT_VOID __declspec(dllexport) void __stdcall

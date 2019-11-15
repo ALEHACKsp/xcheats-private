@@ -18,12 +18,10 @@ namespace testproj
         public static extern int GetOffset(int magic);
 
         [DllImport("client.dll")]
-        public static extern void ReadMemory(int magic, ref CopyStruct str, int number);
+        public static extern void CopyDriverMemory(int magic, ref CopyStruct str, int number);
 
         unsafe public struct CopyStruct
         {
-            public int handled;
-
             public int dpid;
             public ulong daddr;
 
@@ -33,6 +31,8 @@ namespace testproj
             public int size;
 
             public fixed char buffer[1024];
+
+            public int handled;
         }
 
         static void Main(string[] args)
@@ -46,11 +46,14 @@ namespace testproj
             Console.WriteLine("Static: " + offset.ToString("x"));
 
             CopyStruct ics = new CopyStruct();
+            ics.handled = 0;
             ics.size = 10;
-            ReadMemory(magic, ref ics, 2);
+            ics.daddr = 0xFEED;
+            CopyDriverMemory(magic, ref ics, 2);
 
             Console.WriteLine("Dpid: " + ics.dpid.ToString("X"));
             Console.WriteLine("Spid: " + ics.spid.ToString("X"));
+            Console.WriteLine("Saddr: " + ics.saddr.ToString("X"));
             Console.WriteLine("Handled: " + ics.handled.ToString("X"));
 
             Console.ReadKey();
