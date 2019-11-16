@@ -4,6 +4,7 @@
 #define FALSE 0
 
 #define STATIC_ADDR 0x1c170
+#define DLL_NAME L"client_xcheats.dll"
 
 // Change to FALSE if building for release
 // Disables logging and debug features
@@ -36,8 +37,6 @@ typedef struct _CopyStruct
 	ULONGLONG saddr;
 
 	INT size;
-
-	char buffer[1024];
 
 	INT handled;  // true (1) if the driver has already done it's job
 } CopyStruct;

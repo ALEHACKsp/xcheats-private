@@ -46,18 +46,42 @@ void ProcessAddress(ULONGLONG address)
 	
 	RtlCopyMemory((PVOID)cs, (PVOID)address, sizeof(CopyStruct));
 
-	DbgPrintEx(0, 0, "Addr: %llx", cs->daddr);
+	if (!cs->handled) 
+	{
+		PEPROCESS sourcepe = { 0 };
+		status = PsLookupProcessByProcessId((HANDLE)cs->spid, &sourcepe);
+		if (!NT_SUCCESS(status))
+		{
+			Log("Source process is not running anymore or invalid PID");
+			KeUnstackDetachProcess(state);
+			return;
+		}
+		PEPROCESS destpe = { 0 };
+		status = PsLookupProcessByProcessId((HANDLE)cs->dpid, &destpe);
+		if (!NT_SUCCESS(status))
+		{
+			Log("Destination process is not running anymore or invalid PID");
+			KeUnstackDetachProcess(state);
+			return;
+		}
+		
+		DbgPrintEx(0, 0, "DADDR: %llx", cs->daddr);
+		DbgPrintEx(0, 0, "SADDR: %llx", cs->saddr);
+		DbgPrintEx(0, 0, "SPID: %i", cs->spid);
+		DbgPrintEx(0, 0, "DPID: %i", cs->dpid);
+		DbgPrintEx(0, 0, "SIZE: %i", cs->size);
 
-	cs->saddr = 0xFFEE;
-	cs->handled = 1;
+		status = CopyVirtualMemory(sourcepe, destpe, (PVOID)cs->saddr, (PVOID)cs->daddr, cs->size);
+		if (!NT_SUCCESS(status))
+		{
+			Log("Copy memory failed");
+		}
 
-	RtlCopyMemory((PVOID)address, (PVOID)cs, sizeof(CopyStruct));
-
-	Wait(1000);
+		cs->handled = 1;
+		RtlCopyMemory((PVOID)address, (PVOID)cs, sizeof(CopyStruct));
+	}
 
 	KeUnstackDetachProcess(state);
-
-	UNREFERENCED_PARAMETER(address);
 }
 
 int filterException(int code, PEXCEPTION_POINTERS ex) 
@@ -79,6 +103,9 @@ void MainThread(PVOID blank)
 		Log("Client not connected");
 		Wait(1000);
 	}
+
+	Log("Waiting for client to initialize...");
+	Wait(5000);
 
 	while (!g_Exit) 
 	{

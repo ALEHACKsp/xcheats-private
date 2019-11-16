@@ -4,7 +4,7 @@
 #include "Client.h"
 #include "Defines.h"
 
-static char BaseOffset[24000];
+static char BaseOffset[1024];
 
 ULONGLONG GetBase(DWORD procId, const wchar_t* modName)
 {

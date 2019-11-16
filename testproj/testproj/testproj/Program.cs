@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,47 +10,30 @@ namespace testproj
 {
     class Program
     {
-        const int magic = 0xFEED;
-
-        [DllImport("client.dll")]
-        public static extern int Init(int magic, int number);
-
-        [DllImport("client.dll")]
-        public static extern int GetOffset(int magic);
-
-        [DllImport("client.dll")]
-        public static extern void CopyDriverMemory(int magic, ref CopyStruct str, int number);
-
-        unsafe public struct CopyStruct
-        {
-            public int dpid;
-            public ulong daddr;
-
-            public int spid;
-            public ulong saddr;
-
-            public int size;
-
-            public fixed char buffer[1024];
-
-            public int handled;
-        }
-
         static void Main(string[] args)
         {
             Console.ReadKey();
             
-            int ini = Init(magic, 10);
+            long baseaddr = Process.GetCurrentProcess().MainModule.BaseAddress.ToInt64();
+            Console.WriteLine("Base: " + baseaddr.ToString("X"));
+            
+            int ini = Memory.Driver.Init(Memory.Driver.magic, 10);
             Console.WriteLine("Init: " + ini.ToString("X"));
             
-            int offset = GetOffset(magic);
+            int offset = Memory.Driver.GetOffset(Memory.Driver.magic);
             Console.WriteLine("Static: " + offset.ToString("x"));
 
-            CopyStruct ics = new CopyStruct();
+            IntPtr alloc = Marshal.AllocHGlobal(64);
+            Console.WriteLine("Alloc: " + alloc.ToString("X"));
+
+            Memory.Driver.CopyStruct ics = new Memory.Driver.CopyStruct();
             ics.handled = 0;
-            ics.size = 10;
-            ics.daddr = 0xFEED;
-            CopyDriverMemory(magic, ref ics, 2);
+            ics.size = 64;
+            ics.daddr = (ulong)alloc.ToInt64();
+            ics.dpid = Process.GetCurrentProcess().Id;
+            ics.spid = Process.GetProcessesByName("ProcessHacker")[0].Id;
+            ics.saddr = (ulong)Process.GetProcessesByName("ProcessHacker")[0].MainModule.BaseAddress.ToInt64();
+            Memory.Driver.CopyDriverMemory(Memory.Driver.magic, ref ics, 2);
 
             Console.WriteLine("Dpid: " + ics.dpid.ToString("X"));
             Console.WriteLine("Spid: " + ics.spid.ToString("X"));

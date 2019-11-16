@@ -9,7 +9,7 @@ BOOLEAN g_Exit;
 
 void PloadImageNotifyRoutine(PUNICODE_STRING FullImageName, HANDLE ProcessId, PIMAGE_INFO ImageInfo)
 {
-	if (!wcsstr(FullImageName->Buffer, L"client.dll")) return;
+	if (!wcsstr(FullImageName->Buffer, DLL_NAME)) return;
 
 	Log("Base found");
 

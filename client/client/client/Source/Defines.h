@@ -10,8 +10,6 @@ typedef struct _CopyStruct
 
 	INT size;
 
-	char buffer[1024];
-
 	INT handled;
 } CopyStruct;
 
@@ -21,4 +19,4 @@ typedef struct _CopyStruct
 #define EXPORT_STRUCT __declspec(dllexport) CopyStruct __stdcall
 
 #define MAGIC 0xFEED
-#define DLL_NAME L"client.dll"
+#define DLL_NAME L"client_xcheats.dll"
