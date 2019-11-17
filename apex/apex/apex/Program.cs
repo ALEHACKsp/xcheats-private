@@ -17,6 +17,8 @@ namespace apex
         
         static void Main(string[] args)
         {
+            // TODO: Check if driver is loaded
+            
             Log.Title();
 
             Log.Info("Initialiting...");
@@ -47,6 +49,10 @@ namespace apex
             Log.Debug("Entity update thread...");
             Thread t1 = new Thread(Threads.EntityUpdate);
             t1.Start();
+
+            Log.Debug("Aimbot thread...");
+            Thread t2 = new Thread(Threads.AimThread);
+            t2.Start();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("The cheat is running now.");

@@ -16,6 +16,9 @@ namespace apex
             {
                 Thread.Sleep(1);
 
+                if (G.aimentity == 0)
+                    continue;
+
                 if (!Convert.ToBoolean(Native.GetKeyState(Native.VirtualKeyStates.VK_XBUTTON2) & 0x8000))
                     continue;
 

@@ -199,7 +199,7 @@ namespace apex
         }
 
 
-        [DllImport("user32dll")]
+        [DllImport("user32.dll")]
         public static extern short GetKeyState(VirtualKeyStates nVirtKey);
     }
 }
