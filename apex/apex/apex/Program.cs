@@ -18,6 +18,7 @@ namespace apex
         static void Main(string[] args)
         {
             // TODO: Check if driver is loaded
+            // TODO: Make another thread for aimbot entity scan itself
             
             Log.Title();
 
@@ -50,9 +51,13 @@ namespace apex
             Thread t1 = new Thread(Threads.EntityUpdate);
             t1.Start();
 
-            Log.Debug("Aimbot thread...");
-            Thread t2 = new Thread(Threads.AimThread);
+            Log.Debug("Aimbot update thread...");
+            Thread t2 = new Thread(Threads.AimUpdate);
             t2.Start();
+
+            Log.Debug("Aimbot thread...");
+            Thread t3 = new Thread(Threads.AimThread);
+            t3.Start();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("The cheat is running now.");
@@ -63,8 +68,8 @@ namespace apex
             Driver.Exit();
             Thread.Sleep(1000);
             Log.Success("Driver exited");
-
-            Console.ReadKey();
+            Thread.Sleep(1000);
+            Environment.Exit(0);
         }
     }
 }

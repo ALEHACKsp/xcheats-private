@@ -24,10 +24,10 @@ namespace apex
 
                 ulong localent = Driver.Read<ulong>(G.baseaddr + Offsets.locale, 1);
 
-                Vector3 LocalCamera = SDK.GetCamPos(localent);
-                Vector3 ViewAngles = SDK.GetViewAngles(localent);
-                Vector3 FeetPosition = SDK.GetEntityBasePosition(G.aimentity);
-                Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition);
+                Vector3 LocalCamera = SDK.GetCamPos(localent, 1);
+                Vector3 ViewAngles = SDK.GetViewAngles(localent, 1);
+                Vector3 FeetPosition = SDK.GetEntityBasePosition(G.aimentity, 1);
+                Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition, 1);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
 
                 Vector3 Delta = (CalculatedAngles - ViewAngles);
@@ -39,7 +39,51 @@ namespace apex
                     SmoothedAngles -= RecoilVec;
                 }
 
-                SDK.SetViewAngles(localent, SmoothedAngles);
+                SDK.SetViewAngles(localent, SmoothedAngles, 1);
+            }
+        }
+
+        public static void AimUpdate()
+        {
+            while (true)
+            {
+                Thread.Sleep(1);
+
+                ulong entitylist = G.baseaddr + Offsets.entitylist;
+                ulong baseent = Driver.Read<ulong>(entitylist, 2);
+                if (baseent == 0)
+                {
+                    continue;
+                }
+
+                float max = 999.0f;
+                ulong aime = 0;
+                for (int i = 0; i < 150; i++)
+                {
+                    ulong centity = Driver.Read<ulong>(entitylist + ((ulong)i << 5), 2);
+                    ulong localent = Driver.Read<ulong>(G.baseaddr + Offsets.locale, 2);
+
+                    if (localent == centity)
+                    {
+                        continue;
+                    }
+
+                    Vector3 LocalCamera = SDK.GetCamPos(localent, 2);
+                    Vector3 ViewAngles = SDK.GetViewAngles(localent, 2);
+                    Vector3 FeetPosition = SDK.GetEntityBasePosition(centity, 2);
+                    Vector3 HeadPosition = SDK.GetEntityBonePosition(centity, 8, FeetPosition, 2);
+                    Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
+                    //Vector3 Delta = (CalculatedAngles - ViewAngles);
+
+                    float fov = SDK.GetFov(ViewAngles, CalculatedAngles);
+
+                    if (fov < max)
+                    {
+                        max = fov;
+                        aime = centity;
+                    }
+                }
+                G.aimentity = aime;
             }
         }
         
@@ -56,8 +100,6 @@ namespace apex
                     continue;
                 }
 
-                float max = 999.0f;
-                ulong aime = 0;
                 /* First 100 entities should be all players in game
                  * The issue is that sometimes I saw someone without glow
                  * so I increased it to 150 and it seems like it works now. */
@@ -106,25 +148,7 @@ namespace apex
                         Driver.Write<float>(centity + offset, float.MaxValue, 0);
 
                     Driver.Write<float>(centity + Offsets.glowrange, float.MaxValue, 0);
-
-                    ulong localent = Driver.Read<ulong>(G.baseaddr + Offsets.locale, 1);
-
-                    Vector3 LocalCamera = SDK.GetCamPos(localent);
-                    Vector3 ViewAngles = SDK.GetViewAngles(localent);
-                    Vector3 FeetPosition = SDK.GetEntityBasePosition(G.aimentity);
-                    Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition);
-                    Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
-
-                    float fov = SDK.GetFov(ViewAngles, CalculatedAngles);
-
-                    if (fov < max)
-                    {
-                        max = fov;
-                        aime = centity;
-                    }
                 }
-
-                G.aimentity = aime;
             }
         }
     }

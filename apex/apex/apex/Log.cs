@@ -41,7 +41,7 @@ namespace apex
 
         public static void Debug(string text)
         {
-            Print(text, ConsoleColor.Gray);
+            Print(text, ConsoleColor.DarkGray);
         }
 
         public static void Error(string text)
