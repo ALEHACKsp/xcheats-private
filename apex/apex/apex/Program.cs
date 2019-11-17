@@ -48,7 +48,9 @@ namespace apex
             Thread t1 = new Thread(Threads.EntityUpdate);
             t1.Start();
 
-            Console.WriteLine("The cheat is running now. Press any key to safely exit the driver.");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("The cheat is running now.");
+            Console.WriteLine("Press any key to safely exit the driver.");
             Console.ReadKey();
 
             Log.Info("Safe exiting driver...");

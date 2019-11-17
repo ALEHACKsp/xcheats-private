@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace apex
 {
-    class G
+    class Settings
     {
-        public static int PID;
-        public static ulong baseaddr;
-
-        public static ulong aimentity;
+        // TODO: json config system
     }
 }

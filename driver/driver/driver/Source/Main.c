@@ -33,10 +33,11 @@ NTSTATUS CheckClient(PEPROCESS* client)
 	return status;
 }
 
+PRKAPC_STATE state;
+
 void ProcessAddress(ULONGLONG address)
 {
 	PEPROCESS cclient = { 0 };
-	PRKAPC_STATE state = ExAllocatePool(NonPagedPool, sizeof(KAPC_STATE));
 	NTSTATUS status = CheckClient(&cclient);
 	if (!NT_SUCCESS(status)) return;
 
@@ -133,6 +134,9 @@ void MainThread(PVOID blank)
 
 	Log("Waiting for client to initialize...");
 	Wait(1000);
+
+	Log("Allocating memory...");
+	state = ExAllocatePool(NonPagedPool, sizeof(KAPC_STATE));
 
 	while (!g_Exit) 
 	{
