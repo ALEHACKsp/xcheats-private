@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testproj.Memory
+namespace apex
 {
     class Driver
     {
@@ -23,9 +23,13 @@ namespace testproj.Memory
         public static extern int GetOffset(int magic);
 
         [DllImport(dllname)]
+        public static extern int GetPID(int magic);
+
+        [DllImport(dllname)]
         public static extern void CopyDriverMemory(int magic, ref CopyStruct str, int number);
 
-        unsafe public struct CopyStruct
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CopyStruct
         {
             public int dpid;
             public ulong daddr;
@@ -36,6 +40,8 @@ namespace testproj.Memory
             public int size;
 
             public int handled;
+            public int getbase;
+            public int shouldexit;
         }
 
         public static void Initialize(int pid)
@@ -57,6 +63,7 @@ namespace testproj.Memory
             ics.dpid = dpid;
             ics.spid = spid;
             ics.saddr = address;
+            ics.getbase = 0;
 
             CopyDriverMemory(magic, ref ics, number);
 
@@ -79,10 +86,42 @@ namespace testproj.Memory
             ics.dpid = spid;
             ics.spid = dpid;
             ics.saddr = (ulong)alloc.ToInt64();
+            ics.getbase = 0;
 
             CopyDriverMemory(magic, ref ics, number);
 
             Marshal.FreeHGlobal(alloc);
+        }
+
+        public static ulong GetBase(int PID)
+        {
+            CopyStruct ics = new CopyStruct();
+            ics.handled = 0;
+            ics.size = 0;
+            ics.daddr = 0;
+            ics.dpid = PID;
+            ics.spid = 0;
+            ics.saddr = 0;
+            ics.getbase = 1;
+
+            CopyDriverMemory(magic, ref ics, 0);
+
+            return ics.daddr;
+        }
+
+        public static void Exit()
+        {
+            CopyStruct ics = new CopyStruct();
+            ics.handled = 0;
+            ics.size = 0;
+            ics.daddr = 0;
+            ics.dpid = 0;
+            ics.spid = 0;
+            ics.saddr = 0;
+            ics.getbase = 0;
+            ics.shouldexit = 1;
+
+            CopyDriverMemory(magic, ref ics, 0);
         }
     }
 }

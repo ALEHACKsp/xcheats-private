@@ -39,6 +39,8 @@ typedef struct _CopyStruct
 	INT size;
 
 	INT handled;  // true (1) if the driver has already done it's job
+	INT getbase;
+	INT shouldexit;
 } CopyStruct;
 
 extern ULONGLONG g_Base; 

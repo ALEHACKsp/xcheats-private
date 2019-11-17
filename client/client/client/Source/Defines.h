@@ -11,6 +11,8 @@ typedef struct _CopyStruct
 	INT size;
 
 	INT handled;
+	INT getbase;
+	INT shouldexit;
 } CopyStruct;
 
 #define EXPORT_VOID __declspec(dllexport) void __stdcall
@@ -20,3 +22,4 @@ typedef struct _CopyStruct
 
 #define MAGIC 0xFEED
 #define DLL_NAME L"client_xcheats.dll"
+#define GAME_NAME L"r5apex.exe"

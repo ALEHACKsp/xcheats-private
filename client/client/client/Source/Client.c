@@ -30,6 +30,41 @@ ULONGLONG GetBase(DWORD procId, const wchar_t* modName)
 	return modBaseAddr;
 }
 
+EXPORT_INT GetPID(int magic)
+{
+	if (magic != MAGIC)
+		return 0xDEAD;
+
+	wchar_t* gamename = GAME_NAME;
+	
+	PROCESSENTRY32 processInfo;
+	processInfo.dwSize = sizeof(processInfo);
+
+	HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+	if (processesSnapshot == INVALID_HANDLE_VALUE) {
+		return 0;
+	}
+
+	Process32First(processesSnapshot, &processInfo);
+	if (!wcscmp(gamename, processInfo.szExeFile))
+	{
+		CloseHandle(processesSnapshot);
+		return processInfo.th32ProcessID;
+	}
+
+	while (Process32Next(processesSnapshot, &processInfo))
+	{
+		if (!wcscmp(gamename, processInfo.szExeFile))
+		{
+			CloseHandle(processesSnapshot);
+			return processInfo.th32ProcessID;
+		}
+	}
+
+	CloseHandle(processesSnapshot);
+	return 0;
+}
+
 EXPORT_ULONGLONG GetAddress(int magic, int number)
 {
 	if (magic != MAGIC)

@@ -46,8 +46,35 @@ void ProcessAddress(ULONGLONG address)
 	
 	RtlCopyMemory((PVOID)cs, (PVOID)address, sizeof(CopyStruct));
 
-	if (!cs->handled) 
+	if (cs->shouldexit) 
 	{
+		Log("Exit signal received");
+		cs->handled = 1;
+		RtlCopyMemory((PVOID)address, (PVOID)cs, sizeof(CopyStruct));
+		KeUnstackDetachProcess(state);
+		g_Exit = 1;
+		return;
+	}
+	
+	if (!cs->handled) 
+	{		
+		if (cs->getbase)
+		{
+			PEPROCESS pe = { 0 };
+			status = PsLookupProcessByProcessId((HANDLE)cs->dpid, &pe);
+			if (!NT_SUCCESS(status))
+			{
+				Log("Game process is not running anymore or invalid PID");
+				KeUnstackDetachProcess(state);
+				return;
+			}
+			ULONGLONG baseaddr = (ULONGLONG)PsGetProcessSectionBaseAddress(pe);
+			cs->daddr = baseaddr;
+			cs->handled = 1;
+			RtlCopyMemory((PVOID)address, (PVOID)cs, sizeof(CopyStruct));
+			return;
+		}
+		
 		PEPROCESS sourcepe = { 0 };
 		status = PsLookupProcessByProcessId((HANDLE)cs->spid, &sourcepe);
 		if (!NT_SUCCESS(status))
@@ -65,11 +92,11 @@ void ProcessAddress(ULONGLONG address)
 			return;
 		}
 		
-		DbgPrintEx(0, 0, "DADDR: %llx", cs->daddr);
+		/*DbgPrintEx(0, 0, "DADDR: %llx", cs->daddr);
 		DbgPrintEx(0, 0, "SADDR: %llx", cs->saddr);
 		DbgPrintEx(0, 0, "SPID: %i", cs->spid);
 		DbgPrintEx(0, 0, "DPID: %i", cs->dpid);
-		DbgPrintEx(0, 0, "SIZE: %i", cs->size);
+		DbgPrintEx(0, 0, "SIZE: %i", cs->size);*/
 
 		status = CopyVirtualMemory(sourcepe, destpe, (PVOID)cs->saddr, (PVOID)cs->daddr, cs->size);
 		if (!NT_SUCCESS(status))
@@ -105,7 +132,7 @@ void MainThread(PVOID blank)
 	}
 
 	Log("Waiting for client to initialize...");
-	Wait(5000);
+	Wait(1000);
 
 	while (!g_Exit) 
 	{
@@ -122,6 +149,11 @@ void MainThread(PVOID blank)
 				Log("Exception in processing");
 			}		
 		}
-		g_Exit = 1;
 	}
+
+	Log("Driver has been reset");
+	Wait(5000);
+	g_PID = 0;
+	g_Base = 0;
+	MainThread(0);
 }
