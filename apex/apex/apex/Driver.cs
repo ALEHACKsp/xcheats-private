@@ -121,7 +121,7 @@ namespace apex
             ics.getbase = 0;
             ics.shouldexit = 1;
 
-            CopyDriverMemory(magic, ref ics, 0);
+            CopyDriverMemory(magic, ref ics, 8);
         }
     }
 }

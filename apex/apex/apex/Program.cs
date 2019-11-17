@@ -21,9 +21,6 @@ namespace apex
 
             Log.Info("Initialiting...");
 
-            Log.Debug("Allocating memory for driver communication...");
-            Driver.Initialize(G.PID);
-
             Log.Debug("Getting game PID...");
             G.PID = Driver.GetPID(Driver.magic);
             if (G.PID == 0)
@@ -32,6 +29,9 @@ namespace apex
                 ErrExit();
             }
             Log.Debug("Game PID is " + G.PID);
+
+            Log.Debug("Allocating memory for driver communication...");
+            Driver.Initialize(G.PID);
 
             Log.Debug("Getting game base...");
             G.baseaddr = Driver.GetBase(G.PID);
