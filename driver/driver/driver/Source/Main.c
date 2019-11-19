@@ -103,6 +103,11 @@ void ProcessAddress(ULONGLONG address)
 		if (!NT_SUCCESS(status))
 		{
 			Log("Copy memory failed");
+			DbgPrintEx(0, 0, "DADDR: %llx", cs->daddr);
+			DbgPrintEx(0, 0, "SADDR: %llx", cs->saddr);
+			DbgPrintEx(0, 0, "SPID: %i", cs->spid);
+			DbgPrintEx(0, 0, "DPID: %i", cs->dpid);
+			DbgPrintEx(0, 0, "SIZE: %i", cs->size);
 		}
 
 		cs->handled = 1;
@@ -129,7 +134,7 @@ void MainThread(PVOID blank)
 	while (!g_PID || !g_Base)
 	{
 		Log("Client not connected");
-		Wait(1000);
+		Wait(2000);
 	}
 
 	Log("Waiting for client to initialize...");
