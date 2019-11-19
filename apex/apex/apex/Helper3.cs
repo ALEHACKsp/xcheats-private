@@ -36,12 +36,9 @@ namespace apex.Driver
             Imports.Deinitialize();
         }
 
-        public static unsafe T Read<T>(ulong address, int size = 0)
+        public static unsafe T Read<T>(ulong address)
         {
-            if (size == 0)
-            {
-                size = Marshal.SizeOf(typeof(T));
-            }
+            int size = Marshal.SizeOf(typeof(T));
 
             IntPtr buffer = Marshal.AllocHGlobal(size);
             Imports.ReadMemory(socket, (uint)PID, address, (UIntPtr)buffer.ToPointer(), size);
@@ -52,12 +49,9 @@ namespace apex.Driver
             return structure;
         }
 
-        public static unsafe void Write<T>(ulong address, T data, int size = 0)
+        public static unsafe void Write<T>(ulong address, T data)
         {
-            if (size == 0)
-            {
-                size = Marshal.SizeOf(typeof(T));
-            }
+            int size = Marshal.SizeOf(typeof(T));
 
             IntPtr buffer = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(data, buffer, true);

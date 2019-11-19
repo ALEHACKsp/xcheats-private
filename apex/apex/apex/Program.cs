@@ -27,7 +27,10 @@ namespace apex
             Driver.Helper1.Init(27061);
             Driver.Helper2.Init(27062);
             Driver.Helper3.Init(27063);
-            
+
+            G.baseaddr = Driver.Helper1.GetBase();
+            Log.Debug("Base address: " + G.baseaddr);
+
             Log.Debug("Entity update thread...");
             Thread t1 = new Thread(Threads.EntityUpdate);
             t1.Start();

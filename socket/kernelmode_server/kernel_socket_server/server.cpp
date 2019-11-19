@@ -26,6 +26,19 @@ void Wait(int milliseconds)
 	}
 }
 
+void WaitS(int milliseconds)
+{
+	LARGE_INTEGER delay;
+	delay.QuadPart = RELATIVE(MICROSECONDS(milliseconds));
+
+	NTSTATUS status = KeDelayExecutionThread(KernelMode, FALSE, &delay);
+
+	if (!NT_SUCCESS(status))
+	{
+		log("Short wait failed");
+	}
+}
+
 void create_thread(PWORKER_THREAD_ROUTINE routine, paramss context)
 {
 	log("Creating thread for routine %p...", routine);
@@ -102,6 +115,8 @@ static void NTAPI connection_thread(void* connection_socket)
 	Packet packet{ };
 	while (true)
 	{
+		WaitS(10);
+		
 		const auto result = recv(client_connection, (void*)&packet, sizeof(packet), 0);
 		if (result <= 0)
 			break;
@@ -139,6 +154,8 @@ void NTAPI main_thread(void*)
 
 	while (true)
 	{
+		Wait(20);
+		
 		sockaddr  socket_addr{ };
 		socklen_t socket_length{ };
 

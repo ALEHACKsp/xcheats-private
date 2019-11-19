@@ -22,7 +22,7 @@ namespace apex
                 if (!Convert.ToBoolean(Native.GetKeyState(Native.VirtualKeyStates.VK_XBUTTON2) & 0x8000))
                     continue;
 
-                ulong localent = Driver.Helper2.Read<ulong>(G.baseaddr + Offsets.locale, 1);
+                ulong localent = Driver.Helper2.Read<ulong>(G.baseaddr + Offsets.locale);
 
                 Vector3 LocalCamera = SDK.GetCamPos(localent, 1);
                 Vector3 ViewAngles = SDK.GetViewAngles(localent, 1);
@@ -33,7 +33,7 @@ namespace apex
                 Vector3 Delta = (CalculatedAngles - ViewAngles);
                 Vector3 SmoothedAngles = ViewAngles + Delta;
 
-                Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch, 1);
+                Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch);
                 if (RecoilVec.X != 0 || RecoilVec.Y != 0)
                 {
                     SmoothedAngles -= RecoilVec;
@@ -50,7 +50,7 @@ namespace apex
                 Thread.Sleep(1);
 
                 ulong entitylist = G.baseaddr + Offsets.entitylist;
-                ulong baseent = Driver.Helper3.Read<ulong>(entitylist, 2);
+                ulong baseent = Driver.Helper3.Read<ulong>(entitylist);
                 if (baseent == 0)
                 {
                     continue;
@@ -60,11 +60,11 @@ namespace apex
                 ulong aime = 0;
                 for (int i = 0; i < 150; i++)
                 {
-                    ulong centity = Driver.Helper3.Read<ulong>(entitylist + ((ulong)i << 5), 2);
+                    ulong centity = Driver.Helper3.Read<ulong>(entitylist + ((ulong)i << 5));
                     if (centity == 0)
                         continue;
 
-                    ulong localent = Driver.Helper3.Read<ulong>(G.baseaddr + Offsets.locale, 2);
+                    ulong localent = Driver.Helper3.Read<ulong>(G.baseaddr + Offsets.locale);
 
                     if (localent == centity)
                     {
@@ -99,7 +99,7 @@ namespace apex
                 Thread.Sleep(1);
 
                 ulong entitylist = G.baseaddr + Offsets.entitylist;
-                ulong baseent = Driver.Helper1.Read<ulong>(entitylist, 0);
+                ulong baseent = Driver.Helper1.Read<ulong>(entitylist);
                 if (baseent == 0)
                 {
                     continue;
@@ -110,22 +110,22 @@ namespace apex
                  * so I increased it to 150 and it seems like it works now. */
                 for (int i = 0; i < 150; i++)
                 {
-                    ulong centity = Driver.Helper1.Read<ulong>(entitylist + ((ulong)i << 5), 2);
+                    ulong centity = Driver.Helper1.Read<ulong>(entitylist + ((ulong)i << 5));
                     if (centity == 0) // potato driver fix
                         continue;
 
                     // I am bad at reading strings stfu
-                    ulong name = Driver.Helper1.Read<ulong>(centity + Offsets.name, 0);
+                    ulong name = Driver.Helper1.Read<ulong>(centity + Offsets.name);
                     if (name != 125780153691248)  // "player.."
                     {
                         continue;
                     }
 
-                    int health = Driver.Helper1.Read<int>(centity + Offsets.health, 0);
+                    int health = Driver.Helper1.Read<int>(centity + Offsets.health);
                     if (health < 1 || health > 100)
                         continue;
 
-                    int shield = Driver.Helper1.Read<int>(centity + Offsets.shield, 0);
+                    int shield = Driver.Helper1.Read<int>(centity + Offsets.shield);
                     int total = health + shield;
 
                     float green = 0;
@@ -144,17 +144,17 @@ namespace apex
                         red = (100.0f - (float)total) / 100.0f;
                     }
 
-                    Driver.Helper1.Write<int>(centity + Offsets.glowenable, 1, 0);
-                    Driver.Helper1.Write<int>(centity + Offsets.glowcontext, 1, 0);
+                    Driver.Helper1.Write<int>(centity + Offsets.glowenable, 1);
+                    Driver.Helper1.Write<int>(centity + Offsets.glowcontext, 1);
 
-                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors, red, 0);
-                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors + 0x4, green, 0);
-                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors + 0x8, blue, 0);
+                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors, red);
+                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors + 0x4, green);
+                    Driver.Helper1.Write<float>(centity + Offsets.glowcolors + 0x8, blue);
 
                     for (ulong offset = 0x2D0; offset <= 0x2E8; offset += 0x4)
-                        Driver.Helper1.Write<float>(centity + offset, float.MaxValue, 0);
+                        Driver.Helper1.Write<float>(centity + offset, float.MaxValue);
 
-                    Driver.Helper1.Write<float>(centity + Offsets.glowrange, float.MaxValue, 0);
+                    Driver.Helper1.Write<float>(centity + Offsets.glowrange, float.MaxValue);
                 }
             }
         }
