@@ -26,6 +26,22 @@ namespace apex
             {
                 returnval = Driver.Helper3.Read<Vector3>(ent + Offsets.origin);
             }
+            if (number == 3)
+            {
+                returnval = Driver.Helper4.Read<Vector3>(ent + Offsets.origin);
+            }
+            if (number == 4)
+            {
+                returnval = Driver.Helper5.Read<Vector3>(ent + Offsets.origin);
+            }
+            if (number == 5)
+            {
+                returnval = Driver.Helper6.Read<Vector3>(ent + Offsets.origin);
+            }
+            if (number == 6)
+            {
+                returnval = Driver.Helper7.Read<Vector3>(ent + Offsets.origin);
+            }
 
             return returnval;
         }
@@ -44,6 +60,22 @@ namespace apex
             if (number == 2)
             {
                 returnval = Driver.Helper3.Read<ulong>(ent + Offsets.bones);
+            }
+            if (number == 3)
+            {
+                returnval = Driver.Helper4.Read<ulong>(ent + Offsets.bones);
+            }
+            if (number == 4)
+            {
+                returnval = Driver.Helper5.Read<ulong>(ent + Offsets.bones);
+            }
+            if (number == 5)
+            {
+                returnval = Driver.Helper6.Read<ulong>(ent + Offsets.bones);
+            }
+            if (number == 6)
+            {
+                returnval = Driver.Helper7.Read<ulong>(ent + Offsets.bones);
             }
 
             return returnval;
@@ -73,6 +105,30 @@ namespace apex
                 EntityHead.Y = Driver.Helper3.Read<float>(pBoneArray + 0xDC + ((ulong)BoneId * 0x30)) + BasePosition.Y;
                 EntityHead.Z = Driver.Helper3.Read<float>(pBoneArray + 0xEC + ((ulong)BoneId * 0x30)) + BasePosition.Z;
             }
+            if (number == 3)
+            {
+                EntityHead.X = Driver.Helper4.Read<float>(pBoneArray + 0xCC + ((ulong)BoneId * 0x30)) + BasePosition.X;
+                EntityHead.Y = Driver.Helper4.Read<float>(pBoneArray + 0xDC + ((ulong)BoneId * 0x30)) + BasePosition.Y;
+                EntityHead.Z = Driver.Helper4.Read<float>(pBoneArray + 0xEC + ((ulong)BoneId * 0x30)) + BasePosition.Z;
+            }
+            if (number == 4)
+            {
+                EntityHead.X = Driver.Helper5.Read<float>(pBoneArray + 0xCC + ((ulong)BoneId * 0x30)) + BasePosition.X;
+                EntityHead.Y = Driver.Helper5.Read<float>(pBoneArray + 0xDC + ((ulong)BoneId * 0x30)) + BasePosition.Y;
+                EntityHead.Z = Driver.Helper5.Read<float>(pBoneArray + 0xEC + ((ulong)BoneId * 0x30)) + BasePosition.Z;
+            }
+            if (number == 5)
+            {
+                EntityHead.X = Driver.Helper6.Read<float>(pBoneArray + 0xCC + ((ulong)BoneId * 0x30)) + BasePosition.X;
+                EntityHead.Y = Driver.Helper6.Read<float>(pBoneArray + 0xDC + ((ulong)BoneId * 0x30)) + BasePosition.Y;
+                EntityHead.Z = Driver.Helper6.Read<float>(pBoneArray + 0xEC + ((ulong)BoneId * 0x30)) + BasePosition.Z;
+            }
+            if (number == 6)
+            {
+                EntityHead.X = Driver.Helper7.Read<float>(pBoneArray + 0xCC + ((ulong)BoneId * 0x30)) + BasePosition.X;
+                EntityHead.Y = Driver.Helper7.Read<float>(pBoneArray + 0xDC + ((ulong)BoneId * 0x30)) + BasePosition.Y;
+                EntityHead.Z = Driver.Helper7.Read<float>(pBoneArray + 0xEC + ((ulong)BoneId * 0x30)) + BasePosition.Z;
+            }
 
             return EntityHead;
         }
@@ -93,6 +149,22 @@ namespace apex
             {
                 returnval = Driver.Helper3.Read<Vector3>(ent + Offsets.viewangles);
             }
+            if (number == 3)
+            {
+                returnval = Driver.Helper4.Read<Vector3>(ent + Offsets.viewangles);
+            }
+            if (number == 4)
+            {
+                returnval = Driver.Helper5.Read<Vector3>(ent + Offsets.viewangles);
+            }
+            if (number == 5)
+            {
+                returnval = Driver.Helper6.Read<Vector3>(ent + Offsets.viewangles);
+            }
+            if (number == 6)
+            {
+                returnval = Driver.Helper7.Read<Vector3>(ent + Offsets.viewangles);
+            }
 
             return returnval;
         }
@@ -111,6 +183,22 @@ namespace apex
             {
                 Driver.Helper3.Write<Vector3>(ent + Offsets.viewangles, angles);
             }
+            if (number == 3)
+            {
+                Driver.Helper4.Write<Vector3>(ent + Offsets.viewangles, angles);
+            }
+            if (number == 4)
+            {
+                Driver.Helper5.Write<Vector3>(ent + Offsets.viewangles, angles);
+            }
+            if (number == 5)
+            {
+                Driver.Helper6.Write<Vector3>(ent + Offsets.viewangles, angles);
+            }
+            if (number == 6)
+            {
+                Driver.Helper7.Write<Vector3>(ent + Offsets.viewangles, angles);
+            }
         }
 
         public static Vector3 GetCamPos(ulong ent, int number)
@@ -128,6 +216,22 @@ namespace apex
             if (number == 2)
             {
                 returnval = Driver.Helper3.Read<Vector3>(ent + Offsets.camerapos);
+            }
+            if (number == 3)
+            {
+                returnval = Driver.Helper4.Read<Vector3>(ent + Offsets.camerapos);
+            }
+            if (number == 4)
+            {
+                returnval = Driver.Helper5.Read<Vector3>(ent + Offsets.camerapos);
+            }
+            if (number == 5)
+            {
+                returnval = Driver.Helper6.Read<Vector3>(ent + Offsets.camerapos);
+            }
+            if (number == 6)
+            {
+                returnval = Driver.Helper7.Read<Vector3>(ent + Offsets.camerapos);
             }
 
             return returnval;

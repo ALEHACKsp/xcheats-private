@@ -55,6 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -72,6 +73,10 @@
     <Compile Include="G.cs" />
     <Compile Include="Helper1.cs" />
     <Compile Include="Helper2.cs" />
+    <Compile Include="Helper7.cs" />
+    <Compile Include="Helper6.cs" />
+    <Compile Include="Helper5.cs" />
+    <Compile Include="Helper4.cs" />
     <Compile Include="Helper3.cs" />
     <Compile Include="Imports.cs" />
     <Compile Include="Log.cs" />
@@ -82,6 +87,7 @@
     <Compile Include="SDK.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Threads.cs" />
+    <Compile Include="Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

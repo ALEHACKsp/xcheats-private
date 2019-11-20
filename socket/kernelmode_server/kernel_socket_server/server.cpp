@@ -115,7 +115,7 @@ static void NTAPI connection_thread(void* connection_socket)
 	Packet packet{ };
 	while (true)
 	{
-		WaitS(10);
+		WaitS(1);
 		
 		const auto result = recv(client_connection, (void*)&packet, sizeof(packet), 0);
 		if (result <= 0)

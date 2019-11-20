@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -10,6 +11,19 @@ namespace apex
 {
     class Threads
     {
+        public static void InfoThread()
+        {
+            Thread.Sleep(1000);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            while (true)
+            {
+                Thread.Sleep(100);
+                Console.Write($"\rAim Loop: {G.aimloop}ms Entity Loop: {G.entloop}ms              ");
+            }         
+        }
+        
         public static void AimThread()
         {
             while (true)
@@ -49,44 +63,30 @@ namespace apex
             {
                 Thread.Sleep(1);
 
-                ulong entitylist = G.baseaddr + Offsets.entitylist;
-                ulong baseent = Driver.Helper3.Read<ulong>(entitylist);
-                if (baseent == 0)
+                var watch = Stopwatch.StartNew();
+
+                ulong entitylist = G.entitylist;
+                if (entitylist == 0)
                 {
                     continue;
                 }
 
-                float max = 999.0f;
-                ulong aime = 0;
-                for (int i = 0; i < 150; i++)
-                {
-                    ulong centity = Driver.Helper3.Read<ulong>(entitylist + ((ulong)i << 5));
-                    if (centity == 0)
-                        continue;
+                Thread th1 = Update.RunThread(0, 25, 3);
+                Thread th2 = Update.RunThread(25, 50, 4);
+                Thread th3 = Update.RunThread(50, 75, 5);
+                Thread th4 = Update.RunThread(75, 100, 6);
+                th1.Join();
+                th2.Join();
+                th3.Join();
+                th4.Join();
 
-                    ulong localent = Driver.Helper3.Read<ulong>(G.baseaddr + Offsets.locale);
+                G.aimentity = G.aime;
 
-                    if (localent == centity)
-                    {
-                        continue;
-                    }
+                G.aime = 0;
+                G.max = 999.9f;
 
-                    Vector3 LocalCamera = SDK.GetCamPos(localent, 2);
-                    Vector3 ViewAngles = SDK.GetViewAngles(localent, 2);
-                    Vector3 FeetPosition = SDK.GetEntityBasePosition(centity, 2);
-                    Vector3 HeadPosition = SDK.GetEntityBonePosition(centity, 8, FeetPosition, 2);
-                    Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
-                    //Vector3 Delta = (CalculatedAngles - ViewAngles);
-
-                    float fov = SDK.GetFov(ViewAngles, CalculatedAngles);
-
-                    if (fov < max)
-                    {
-                        max = fov;
-                        aime = centity;
-                    }
-                }
-                G.aimentity = aime;
+                watch.Stop();
+                G.aimloop = watch.ElapsedMilliseconds;
             }
         }
         
@@ -98,19 +98,20 @@ namespace apex
             {
                 Thread.Sleep(1);
 
+                var watch = Stopwatch.StartNew();
+
                 ulong entitylist = G.baseaddr + Offsets.entitylist;
-                ulong baseent = Driver.Helper1.Read<ulong>(entitylist);
+                ulong baseent = Driver.Helper1.Read<ulong>(G.entitylist);
                 if (baseent == 0)
                 {
+                    G.entitylist = 0;
                     continue;
                 }
+                G.entitylist = entitylist;
 
-                /* First 100 entities should be all players in game
-                 * The issue is that sometimes I saw someone without glow
-                 * so I increased it to 150 and it seems like it works now. */
-                for (int i = 0; i < 150; i++)
+                for (int i = 0; i < 100; i++)
                 {
-                    ulong centity = Driver.Helper1.Read<ulong>(entitylist + ((ulong)i << 5));
+                    ulong centity = Driver.Helper1.Read<ulong>(G.entitylist + ((ulong)i << 5));
                     if (centity == 0) // potato driver fix
                         continue;
 
@@ -156,6 +157,9 @@ namespace apex
 
                     Driver.Helper1.Write<float>(centity + Offsets.glowrange, float.MaxValue);
                 }
+
+                watch.Stop();
+                G.entloop = watch.ElapsedMilliseconds;
             }
         }
     }
