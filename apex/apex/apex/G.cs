@@ -19,5 +19,7 @@ namespace apex
 
         public static float max = 999.0f;
         public static ulong aime = 0;
+
+        public static Settings s;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace apex
 {
@@ -20,6 +21,15 @@ namespace apex
             Log.Title();
 
             Log.Debug("Initialiting...");
+            
+            Settings settings = new Settings();
+            settings.Aimbot = true;
+            settings.SmoothAim = false;
+            G.s = settings;
+
+            Application.EnableVisualStyles();
+            MainForm mf = new MainForm();
+            Application.Run(mf);
 
             Driver.Helper1.Init(27061);
             Driver.Helper2.Init(27062);
@@ -50,10 +60,10 @@ namespace apex
 
             Log.Info("Cheat is running now!");
 
-            while (true)
+            /*while (true)
             {
                 Thread.Sleep(5000);
-            }
+            }*/
         }
     }
 }
