@@ -33,7 +33,7 @@ namespace apex
                 if (G.aimentity == 0)
                     continue;
 
-                if (!Convert.ToBoolean(Native.GetKeyState(Native.VirtualKeyStates.VK_XBUTTON2) & 0x8000))
+                if (!Convert.ToBoolean(Native.GetKeyState((Native.VirtualKeyStates)(G.s.Aimkey)) & 0x8000))
                     continue;
 
                 ulong localent = Driver.Helper2.Read<ulong>(G.baseaddr + Offsets.locale);
@@ -44,14 +44,28 @@ namespace apex
                 Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition, 1);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
 
-                Vector3 Delta = (CalculatedAngles - ViewAngles);
+                Vector3 Delta = new Vector3();
+                if (G.s.SmoothAim)
+                {
+                    Delta = (CalculatedAngles - ViewAngles) / ((float)G.s.SmoothDivider / 100);
+                } else
+                {
+                    Delta = (CalculatedAngles - ViewAngles);
+                }
+
                 Vector3 SmoothedAngles = ViewAngles + Delta;
 
-                Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch);
-                if (RecoilVec.X != 0 || RecoilVec.Y != 0)
+                if (G.s.NoRecoil)
                 {
-                    SmoothedAngles -= RecoilVec;
+                    Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch);
+
+                    RecoilVec = RecoilVec / ((float)G.s.RecoilDivider / 100);
+                    if (RecoilVec.X != 0 || RecoilVec.Y != 0)
+                    {
+                        SmoothedAngles -= RecoilVec;
+                    }
                 }
+
 
                 SDK.SetViewAngles(localent, SmoothedAngles, 1);
             }
@@ -133,16 +147,26 @@ namespace apex
                     float red = 0;
                     float blue = 0;
 
-                    if (total > 100)
+                    if (!G.s.Glow)
+                        continue;
+
+                    if (G.s.Health)
                     {
-                        total -= 100;
-                        blue = (float)total / 125.0f;
-                        green = (125.0f - (float)total) / 125.0f;
-                    }
-                    else
+                        green = (float)health / 100.0f;
+                        red = (100.0f - (float)health) / 100.0f;
+                    } else if (G.s.Shields)
                     {
-                        green = (float)total / 100.0f;
-                        red = (100.0f - (float)total) / 100.0f;
+                        if (total > 100)
+                        {
+                            total -= 100;
+                            blue = (float)total / 125.0f;
+                            green = (125.0f - (float)total) / 125.0f;
+                        }
+                        else
+                        {
+                            green = (float)total / 100.0f;
+                            red = (100.0f - (float)total) / 100.0f;
+                        }
                     }
 
                     Driver.Helper1.Write<int>(centity + Offsets.glowenable, 1);

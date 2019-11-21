@@ -102,7 +102,7 @@ namespace apex
 
                 float fov = SDK.GetFov(ViewAngles, CalculatedAngles);
 
-                if (fov < G.max)
+                if (fov < G.max && fov < G.s.FOV)
                 {
                     G.max = fov;
                     G.aime = centity;

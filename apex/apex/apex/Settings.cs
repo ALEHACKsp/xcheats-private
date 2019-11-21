@@ -36,5 +36,8 @@ namespace apex
 
         [DataMember]
         public int Aimkey { get; set; }
+
+        [DataMember]
+        public int FOV { get; set; }
     }
 }

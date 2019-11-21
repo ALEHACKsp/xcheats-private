@@ -33,6 +33,8 @@ namespace apex
             this.Text = RandomString(50);
             RefreshList();
             timer1.Start();
+
+            toolStripStatusLabel1.Text = "0x" + G.baseaddr.ToString("X");
         }
 
         private void SaveConfig()
@@ -43,7 +45,8 @@ namespace apex
             
             G.s.RecoilDivider = Decimal.ToInt32(numericUpDown1.Value);
             G.s.SmoothDivider = Decimal.ToInt32(numericUpDown2.Value);
-            
+            G.s.FOV = Decimal.ToInt32(numericUpDown3.Value);
+
             G.s.Glow = checkBox4.Checked;
             G.s.Health = checkBox5.Checked;
             G.s.Shields = checkBox6.Checked;
@@ -57,6 +60,7 @@ namespace apex
 
             numericUpDown1.Value = G.s.RecoilDivider;
             numericUpDown2.Value = G.s.SmoothDivider;
+            numericUpDown3.Value = G.s.FOV;
 
             checkBox4.Checked = G.s.Glow;
             checkBox5.Checked = G.s.Health;
