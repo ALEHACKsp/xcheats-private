@@ -46,20 +46,20 @@ namespace apex
             Log.Debug("Base address: " + G.baseaddr);
 
             Log.Debug("Entity update thread...");
-            Thread t1 = new Thread(Threads.EntityUpdate);
-            t1.Start();
+            G.t1 = new Thread(Threads.EntityUpdate);
+            G.t1.Start();
 
             Log.Debug("Aimbot update thread...");
-            Thread t2 = new Thread(Threads.AimUpdate);
-            t2.Start();
+            G.t2 = new Thread(Threads.AimUpdate);
+            G.t2.Start();
 
             Log.Debug("Aimbot thread...");
-            Thread t3 = new Thread(Threads.AimThread);
-            t3.Start();
+            G.t3 = new Thread(Threads.AimThread);
+            G.t3.Start();
 
             Log.Debug("Info thread...");
-            Thread t4 = new Thread(Threads.InfoThread);
-            t4.Start();
+            G.t4 = new Thread(Threads.InfoThread);
+            G.t4.Start();
 
             Log.Info("Cheat is running now!");
 

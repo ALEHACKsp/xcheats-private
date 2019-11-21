@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -197,6 +198,51 @@ namespace apex
 
             Thread th = new Thread(KeyThread);
             th.Start();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {            
+            G.t1.Abort();
+            G.t2.Abort();
+            G.t3.Abort();
+            G.t4.Abort();
+
+            Console.WriteLine();
+
+            G.baseaddr = Driver.Helper1.GetBase();
+            Log.Debug("Base address: " + G.baseaddr);
+
+            Log.Debug("Entity update thread...");
+            G.t1 = new Thread(Threads.EntityUpdate);
+            G.t1.Start();
+
+            Log.Debug("Aimbot update thread...");
+            G.t2 = new Thread(Threads.AimUpdate);
+            G.t2.Start();
+
+            Log.Debug("Aimbot thread...");
+            G.t3 = new Thread(Threads.AimThread);
+            G.t3.Start();
+
+            Log.Debug("Info thread...");
+            G.t4 = new Thread(Threads.InfoThread);
+            G.t4.Start();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Process.Start("winver");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start("Dbgview.exe");
+            } catch
+            {
+                MessageBox.Show("Dbgview.exe was not found in cheat directory!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
