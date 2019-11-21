@@ -154,7 +154,8 @@ namespace apex
                     {
                         green = (float)health / 100.0f;
                         red = (100.0f - (float)health) / 100.0f;
-                    } else if (G.s.Shields)
+                    }
+                    if (G.s.Shields)
                     {
                         if (total > 100)
                         {

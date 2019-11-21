@@ -32,6 +32,7 @@ namespace apex
         {
             this.Text = RandomString(50);
             RefreshList();
+            LoadConfig();
             timer1.Start();
 
             toolStripStatusLabel1.Text = "0x" + G.baseaddr.ToString("X");
