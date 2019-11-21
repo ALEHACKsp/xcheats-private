@@ -20,9 +20,6 @@ namespace apex
         public bool NoRecoil { get; set; }
 
         [DataMember]
-        public int RecoilDivider { get; set; }
-
-        [DataMember]
         public int SmoothDivider { get; set; }
 
         [DataMember]

@@ -44,7 +44,6 @@ namespace apex
             G.s.SmoothAim = checkBox2.Checked;
             G.s.NoRecoil = checkBox3.Checked;
             
-            G.s.RecoilDivider = Decimal.ToInt32(numericUpDown1.Value);
             G.s.SmoothDivider = Decimal.ToInt32(numericUpDown2.Value);
             G.s.FOV = Decimal.ToInt32(numericUpDown3.Value);
 
@@ -59,7 +58,6 @@ namespace apex
             checkBox2.Checked = G.s.SmoothAim;
             checkBox3.Checked = G.s.NoRecoil;
 
-            numericUpDown1.Value = G.s.RecoilDivider;
             numericUpDown2.Value = G.s.SmoothDivider;
             numericUpDown3.Value = G.s.FOV;
 

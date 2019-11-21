@@ -59,7 +59,7 @@ namespace apex
                 {
                     Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch);
 
-                    RecoilVec = RecoilVec / ((float)G.s.RecoilDivider / 100);
+                    RecoilVec = RecoilVec / ((float)G.s.SmoothDivider / 100);
                     if (RecoilVec.X != 0 || RecoilVec.Y != 0)
                     {
                         SmoothedAngles -= RecoilVec;

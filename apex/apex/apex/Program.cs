@@ -29,15 +29,10 @@ namespace apex
             settings.Glow = true;
             settings.Health = true;
             settings.Shields = true;
-            settings.RecoilDivider = 100;
             settings.SmoothDivider = 100;
             settings.Aimkey = 0x6;
             settings.FOV = 180;
             G.s = settings;
-
-            Application.EnableVisualStyles();
-            MainForm mf = new MainForm();
-            Application.Run(mf);
 
             Driver.Helper1.Init(27061);
             Driver.Helper2.Init(27062);
@@ -67,6 +62,10 @@ namespace apex
             t4.Start();
 
             Log.Info("Cheat is running now!");
+
+            Application.EnableVisualStyles();
+            MainForm mf = new MainForm();
+            Application.Run(mf);
 
             /*while (true)
             {
