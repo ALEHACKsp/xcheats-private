@@ -6,6 +6,7 @@ git add *.sh
 git add *.sln
 git add *.csproj
 git add *.vcxproj
+git add *.config
 
 git commit -m "$(date)"
 
