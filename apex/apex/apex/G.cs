@@ -27,5 +27,7 @@ namespace apex
         public static Thread t2;
         public static Thread t3;
         public static Thread t4;
+
+        public static bool lockent;
     }
 }

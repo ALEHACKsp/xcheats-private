@@ -34,7 +34,13 @@ namespace apex
                     continue;
 
                 if (!Convert.ToBoolean(Native.GetKeyState((Native.VirtualKeyStates)(G.s.Aimkey)) & 0x8000))
+                {
+                    G.lockent = false;
                     continue;
+                } else
+                {
+                    G.lockent = true;
+                }
 
                 ulong localent = Driver.Helper2.Read<ulong>(G.baseaddr + Offsets.locale);
 
@@ -97,7 +103,8 @@ namespace apex
                 th3.Join();
                 th4.Join();
 
-                G.aimentity = G.aime;
+                if (!G.lockent)
+                    G.aimentity = G.aime;
 
                 G.aime = 0;
                 G.max = 999.9f;
