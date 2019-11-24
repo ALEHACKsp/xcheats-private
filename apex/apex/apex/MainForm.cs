@@ -176,7 +176,7 @@ namespace apex
             while (true)
             {
                 Thread.Sleep(10);
-                for (int i = 0x01; i < 0xFE; i++)
+                for (int i = 0x01; i < 0xB5; i++)
                 {
                     if (Convert.ToBoolean(Native.GetKeyState((Native.VirtualKeyStates)i) & 0x8000))
                     {

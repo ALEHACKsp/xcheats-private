@@ -50,13 +50,12 @@ namespace apex
                 Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition, 1);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
 
-                Vector3 Delta = new Vector3();
-                if (G.s.SmoothAim)
+                Vector3 Delta = CalculatedAngles - ViewAngles;
+                Delta = SDK.NormalizeAngles(Delta);
+
+                if (G.s.SmoothAim && Math.Abs(Delta.X) > 0.09 && Math.Abs(Delta.Y) > 0.09)
                 {
-                    Delta = (CalculatedAngles - ViewAngles) / ((float)G.s.SmoothDivider / 100);
-                } else
-                {
-                    Delta = (CalculatedAngles - ViewAngles);
+                    Delta = Delta / ((float)G.s.SmoothDivider / 100);
                 }
 
                 Vector3 SmoothedAngles = ViewAngles + Delta;
@@ -64,13 +63,13 @@ namespace apex
                 if (G.s.NoRecoil)
                 {
                     Vector3 RecoilVec = Driver.Helper2.Read<Vector3>(localent + Offsets.aimpunch);
-
-                    if (G.s.SmoothAim)
-                    {
-                        RecoilVec = RecoilVec / ((float)G.s.SmoothDivider / 100);
-                    }
+                    
                     if (RecoilVec.X != 0 || RecoilVec.Y != 0)
                     {
+                        if (G.s.SmoothAim)
+                        {
+                            RecoilVec = RecoilVec / ((float)G.s.SmoothDivider / 100);
+                        }
                         SmoothedAngles -= RecoilVec;
                     }
                 }
