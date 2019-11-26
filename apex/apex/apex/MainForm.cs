@@ -51,6 +51,11 @@ namespace apex
             G.s.Glow = checkBox4.Checked;
             G.s.Health = checkBox5.Checked;
             G.s.Shields = checkBox6.Checked;
+
+            G.s.DistanceCheck = checkBox7.Checked;
+            G.s.DistanceMax = Decimal.ToInt32(numericUpDown1.Value);
+
+            G.s.RandomizeAim = checkBox8.Checked;
         }
 
         private void LoadConfig()
@@ -67,6 +72,11 @@ namespace apex
             checkBox6.Checked = G.s.Shields;
 
             button1.Text = "0x" + G.s.Aimkey.ToString("X");
+
+            checkBox7.Checked = G.s.DistanceCheck;
+            numericUpDown1.Value = G.s.DistanceMax;
+
+            checkBox8.Checked = G.s.RandomizeAim;
         }
 
         private void RefreshList()

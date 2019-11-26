@@ -36,5 +36,14 @@ namespace apex
 
         [DataMember]
         public int FOV { get; set; }
+
+        [DataMember]
+        public bool DistanceCheck { get; set; }
+
+        [DataMember]
+        public int DistanceMax { get; set; }
+
+        [DataMember]
+        public bool RandomizeAim { get; set; }
     }
 }

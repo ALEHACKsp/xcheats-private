@@ -102,6 +102,13 @@ namespace apex
 
                 float fov = SDK.GetFov(ViewAngles, CalculatedAngles);
 
+                if (G.s.DistanceCheck)
+                {
+                    float distance = SDK.GetDistance(LocalCamera, HeadPosition);
+                    if (distance > G.s.DistanceMax)
+                        continue;
+                }
+
                 if (fov < G.max && fov < G.s.FOV)
                 {
                     G.max = fov;

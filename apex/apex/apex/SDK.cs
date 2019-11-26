@@ -274,5 +274,10 @@ namespace apex
 
             return (float)(Math.Sqrt(Math.Pow(delta.X, 2.0f) + Math.Pow(delta.Y, 2.0f)));
         }
+
+        public static float GetDistance(Vector3 vec1, Vector3 vec2)
+        {
+            return (float)Math.Sqrt((vec1.X - vec2.X) * (vec1.X - vec2.X) + (vec1.Y - vec2.Y) * (vec1.Y - vec2.Y) + (vec1.Z - vec2.Z) * (vec1.Z - vec2.Z));
+        }
     }
 }
