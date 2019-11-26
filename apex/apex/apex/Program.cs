@@ -32,6 +32,9 @@ namespace apex
             settings.SmoothDivider = 100;
             settings.Aimkey = 0x6;
             settings.FOV = 180;
+            settings.DistanceCheck = false;
+            settings.DistanceMax = 100;
+            settings.RandomizeAim = false;
             G.s = settings;
 
             Driver.Helper1.Init(27061);
