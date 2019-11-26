@@ -64,9 +64,10 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -403,7 +404,7 @@
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(6, 176);
             this.numericUpDown1.Maximum = new decimal(new int[] {
-            10000,
+            1000000,
             0,
             0,
             0});
@@ -416,7 +417,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 15;
             this.numericUpDown1.Value = new decimal(new int[] {
-            10,
+            100,
             0,
             0,
             0});
@@ -455,6 +456,16 @@
             this.tabPage1.Text = "Aimbot";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(6, 202);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(98, 17);
+            this.checkBox8.TabIndex = 17;
+            this.checkBox8.Text = "Randomize aim";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.checkBox6);
@@ -467,16 +478,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Visuals";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 202);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(98, 17);
-            this.checkBox8.TabIndex = 17;
-            this.checkBox8.Text = "Randomize aim";
-            this.checkBox8.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -492,6 +493,11 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Config";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 10;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // MainForm
             // 
@@ -569,5 +575,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Timer timer2;
     }
 }

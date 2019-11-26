@@ -33,7 +33,7 @@ namespace apex
             settings.Aimkey = 0x6;
             settings.FOV = 180;
             settings.DistanceCheck = false;
-            settings.DistanceMax = 100;
+            settings.DistanceMax = 1000;
             settings.RandomizeAim = false;
             G.s = settings;
 

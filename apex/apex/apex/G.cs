@@ -19,6 +19,7 @@ namespace apex
         public static long lockloop;
 
         public static float max = 999.0f;
+        public static float random = 0.0f;
         public static ulong aime = 0;
 
         public static Settings s;

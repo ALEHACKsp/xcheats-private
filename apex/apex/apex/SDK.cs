@@ -279,5 +279,17 @@ namespace apex
         {
             return (float)Math.Sqrt((vec1.X - vec2.X) * (vec1.X - vec2.X) + (vec1.Y - vec2.Y) * (vec1.Y - vec2.Y) + (vec1.Z - vec2.Z) * (vec1.Z - vec2.Z));
         }
+
+        public static float RandomFloat()
+        {
+            Random random = new Random();
+            return (float)random.NextDouble();
+        }
+
+        public static int RandomInt(int start, int end)
+        {
+            Random random = new Random();
+            return random.Next(start, end);
+        }
     }
 }

@@ -34,7 +34,9 @@ namespace apex
             this.Text = RandomString(50);
             RefreshList();
             LoadConfig();
+            
             timer1.Start();
+            timer2.Start();
 
             toolStripStatusLabel1.Text = "0x" + G.baseaddr.ToString("X");
         }
@@ -252,6 +254,23 @@ namespace apex
             } catch
             {
                 MessageBox.Show("Dbgview.exe was not found in cheat directory!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            int positive = SDK.RandomInt(1, 100);
+            if (Math.Abs(G.random) < 0.5f)
+            {
+                G.random = 0;
+            }
+            if (positive >= 50)
+            {
+                G.random += SDK.RandomFloat() * 0.2f;
+            }
+            else
+            {
+                G.random -= SDK.RandomFloat() * 0.2f;
             }
         }
     }

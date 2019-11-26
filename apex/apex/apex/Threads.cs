@@ -50,10 +50,16 @@ namespace apex
                 Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition, 1);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
 
+                if (G.s.RandomizeAim)
+                {
+                    CalculatedAngles.Y += G.random;
+                    CalculatedAngles.X += G.random;
+                }
+
                 Vector3 Delta = CalculatedAngles - ViewAngles;
                 Delta = SDK.NormalizeAngles(Delta);
 
-                if (G.s.SmoothAim && Math.Abs(Delta.X) > 0.09 && Math.Abs(Delta.Y) > 0.09)
+                if (G.s.SmoothAim && Math.Abs(Delta.X) > 0.009 && Math.Abs(Delta.Y) > 0.009)
                 {
                     Delta = Delta / ((float)G.s.SmoothDivider / 100);
                 }
