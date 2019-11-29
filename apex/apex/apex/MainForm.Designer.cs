@@ -516,6 +516,7 @@
             this.MinimumSize = new System.Drawing.Size(425, 600);
             this.Name = "MainForm";
             this.Text = "xcheats.cc";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();

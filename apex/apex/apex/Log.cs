@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,18 @@ namespace apex
 {
     class Log
     {
+        private static string _logfile;
+        
+        public static void Init(string filename)
+        {
+            _logfile = filename;
+        }
+
+        public static void WriteLine(string text)
+        {
+            File.AppendAllText(_logfile, text + "\n");
+        }
+        
         public static void Reset()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -16,21 +29,22 @@ namespace apex
         
         public static void Title()
         {
-            Reset();
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("     _   ");
-            Console.WriteLine("(||)(/_><");
-            Console.WriteLine("  |      ");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Copyright (c) 2019 xcheats.cc - All rights reserved\n");
-            Reset();
+            //Reset();
+            //Console.Clear();
+            //Console.ForegroundColor = ConsoleColor.Green;
+            WriteLine("     _   ");
+            WriteLine("(||)(/_><");
+            WriteLine("  |      ");
+            //Console.ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine("Copyright (c) 2019 xcheats.cc - All rights reserved\n");
+            //Reset();
         }  
 
         public static void Print(string text, ConsoleColor c)
         {
-            Console.ForegroundColor = c;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] {text}");
+            //Console.ForegroundColor = c;
+            //Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] {text}");
+            WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] {text}");
             Reset();
         }
 

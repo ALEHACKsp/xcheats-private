@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,20 +10,21 @@ using System.Windows.Forms;
 
 namespace apex
 {
-    class Program
+    public class Program
     {
         static void ErrExit()
         {
             Console.ReadKey();
             Environment.Exit(-1);
         }
-        
-        static void Main(string[] args)
-        {           
+
+        public static void RealMain()
+        {
+            Log.Init("apex.txt");
             Log.Title();
 
             Log.Debug("Initialiting...");
-            
+
             Settings settings = new Settings();
             settings.Aimbot = true;
             settings.SmoothAim = false;
@@ -74,6 +77,11 @@ namespace apex
             {
                 Thread.Sleep(5000);
             }*/
+        }
+
+        static void Main(string[] args)
+        {
+            RealMain();
         }
     }
 }

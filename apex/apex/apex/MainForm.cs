@@ -273,5 +273,13 @@ namespace apex
                 G.random -= SDK.RandomFloat() * 0.2f;
             }
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            G.t1.Abort();
+            G.t2.Abort();
+            G.t3.Abort();
+            G.t4.Abort();
+        }
     }
 }
