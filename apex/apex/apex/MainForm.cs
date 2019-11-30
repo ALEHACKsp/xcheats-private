@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +16,7 @@ using System.Windows.Forms;
 
 namespace apex
 {
-    public partial class MainForm : Form
+    public partial class MainForm : MaterialForm
     {
         private static Random random = new Random();
         public static string RandomString(int length)
@@ -24,61 +26,108 @@ namespace apex
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public static void SetTheme(MaterialForm form)
+        {
+            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(form);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
+
+            materialSkinManager.ColorScheme = new ColorScheme(
+                Primary.Red700, Primary.Red900,
+                Primary.Red500, Accent.Red100,
+                TextShade.WHITE
+            );
+
+            form.MaximizeBox = false;
+            form.MaximumSize = form.Size;
+            form.MinimumSize = form.Size;
+        }
+
         public MainForm()
         {
             InitializeComponent();
+
+            SetTheme(this);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.Text = RandomString(50);
+            this.Text = RandomString(20);
             RefreshList();
             LoadConfig();
             
             timer1.Start();
             timer2.Start();
 
-            toolStripStatusLabel1.Text = "0x" + G.baseaddr.ToString("X");
+            //toolStripStatusLabel1.Text = "0x" + G.baseaddr.ToString("X");
         }
 
         private void SaveConfig()
         {
-            G.s.Aimbot = checkBox1.Checked;
-            G.s.SmoothAim = checkBox2.Checked;
-            G.s.NoRecoil = checkBox3.Checked;
+            G.s.Aimbot = materialCheckBox1.Checked;
+            G.s.SmoothAim = materialCheckBox8.Checked;
+            G.s.NoRecoil = materialCheckBox3.Checked;
             
-            G.s.SmoothDivider = Decimal.ToInt32(numericUpDown2.Value);
-            G.s.FOV = Decimal.ToInt32(numericUpDown3.Value);
+            try
+            {
+                G.s.SmoothDivider = Int32.Parse(materialSingleLineTextField2.Text);
+                if (G.s.SmoothDivider < 100)
+                {
+                    G.s.SmoothDivider = 100;
+                } 
+            } catch (Exception error)
+            {
+                Log.Error(error.Message);
+                G.s.SmoothDivider = 300;
+            }
 
-            G.s.Glow = checkBox4.Checked;
-            G.s.Health = checkBox5.Checked;
-            G.s.Shields = checkBox6.Checked;
+            try
+            {
+                G.s.FOV = Int32.Parse(materialSingleLineTextField1.Text);
+            } catch (Exception error)
+            {
+                Log.Error(error.Message);
+                G.s.FOV = 180;
+            }
 
-            G.s.DistanceCheck = checkBox7.Checked;
-            G.s.DistanceMax = Decimal.ToInt32(numericUpDown1.Value);
 
-            G.s.RandomizeAim = checkBox8.Checked;
+            G.s.Glow = materialCheckBox5.Checked;
+            G.s.Health = materialCheckBox6.Checked;
+            G.s.Shields = materialCheckBox7.Checked;
+
+            G.s.DistanceCheck = materialCheckBox2.Checked;        
+            try
+            {
+                G.s.DistanceMax = Int32.Parse(materialSingleLineTextField3.Text);
+            }
+            catch (Exception error)
+            {
+                Log.Error(error.Message);
+                G.s.DistanceMax = 10000;
+            }
+
+            G.s.RandomizeAim = materialCheckBox4.Checked;
         }
 
         private void LoadConfig()
         {
-            checkBox1.Checked = G.s.Aimbot;
-            checkBox2.Checked = G.s.SmoothAim;
-            checkBox3.Checked = G.s.NoRecoil;
+            materialCheckBox1.Checked = G.s.Aimbot;
+            materialCheckBox8.Checked = G.s.SmoothAim;
+            materialCheckBox3.Checked = G.s.NoRecoil;
 
-            numericUpDown2.Value = G.s.SmoothDivider;
-            numericUpDown3.Value = G.s.FOV;
+            materialSingleLineTextField2.Text = G.s.SmoothDivider.ToString();
+            materialSingleLineTextField1.Text = G.s.FOV.ToString();
 
-            checkBox4.Checked = G.s.Glow;
-            checkBox5.Checked = G.s.Health;
-            checkBox6.Checked = G.s.Shields;
+            materialCheckBox5.Checked = G.s.Glow;
+            materialCheckBox6.Checked = G.s.Health;
+            materialCheckBox7.Checked = G.s.Shields;
 
-            button1.Text = "0x" + G.s.Aimkey.ToString("X");
+            materialFlatButton1.Text = "0x" + G.s.Aimkey.ToString("X");
 
-            checkBox7.Checked = G.s.DistanceCheck;
-            numericUpDown1.Value = G.s.DistanceMax;
+            materialCheckBox2.Checked = G.s.DistanceCheck;
+            materialSingleLineTextField3.Text = G.s.DistanceMax.ToString();
 
-            checkBox8.Checked = G.s.RandomizeAim;
+            materialCheckBox4.Checked = G.s.RandomizeAim;
         }
 
         private void RefreshList()
@@ -150,13 +199,13 @@ namespace apex
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
+            if (string.IsNullOrEmpty(materialSingleLineTextField4.Text))
             {
                 MessageBox.Show("You must specify a name.", "Error when creating config", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string path = GetPath(textBox1.Text);
+            string path = GetPath(materialSingleLineTextField4.Text);
             
             if (!File.Exists(path))
             {
@@ -192,9 +241,9 @@ namespace apex
                 {
                     if (Convert.ToBoolean(Native.GetKeyState((Native.VirtualKeyStates)i) & 0x8000))
                     {
-                        button1.Invoke((MethodInvoker)delegate {
-                            button1.Text = "0x" + i.ToString("X");
-                            button1.Enabled = true;
+                        materialFlatButton1.Invoke((MethodInvoker)delegate {
+                            materialFlatButton1.Text = "0x" + i.ToString("X");
+                            materialFlatButton1.Enabled = true;
                         });
                         G.s.Aimkey = i;
                         return;
@@ -205,8 +254,8 @@ namespace apex
 
         private void button1_Click(object sender, EventArgs e)
         {
-            button1.Text = "Press key";
-            button1.Enabled = false;
+            materialFlatButton1.Text = "Press key";
+            materialFlatButton1.Enabled = false;
 
             Thread th = new Thread(KeyThread);
             th.Start();

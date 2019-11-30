@@ -20,7 +20,7 @@ namespace apex
             while (true)
             {
                 Thread.Sleep(100);
-                Console.Write($"\rAim Loop: {G.aimloop}ms Entity Loop: {G.entloop}ms              ");
+                //Console.Write($"\rAim Loop: {G.aimloop}ms Entity Loop: {G.entloop}ms              ");
             }         
         }
         
