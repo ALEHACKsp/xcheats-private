@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,12 +27,16 @@ namespace apex
             Application.Run(lf);
         }
         
-        public static void RealMain()
+        public static void RealMain(bool debug, MaterialForm localf = null)
         {
             try
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                if (localf == null)
+                {
+                    MessageBox.Show("Starting in debug mode. If you see this message and you don't know what it means please contact developer!");
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                }
 
                 Thread lt = new Thread(Loading);
                 lt.Start();
@@ -89,8 +94,17 @@ namespace apex
                     lf.Close();
                 });
 
-                MainForm mf = new MainForm();
-                Application.Run(mf);
+                if (localf == null)
+                {
+                    MainForm mf = new MainForm();
+                    Application.Run(mf);
+                } else
+                {
+                    localf.Invoke((MethodInvoker)delegate {
+                        MainForm mf = new MainForm();
+                        mf.Show();
+                    });
+                }
             }
             catch (Exception error)
             {
@@ -105,7 +119,7 @@ namespace apex
 
         static void Main(string[] args)
         {
-            RealMain();
+            RealMain(false);
         }
     }
 }
