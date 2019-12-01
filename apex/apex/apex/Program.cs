@@ -59,6 +59,7 @@ namespace apex
                 settings.DistanceCheck = true;
                 settings.DistanceMax = 10000;
                 settings.RandomizeAim = false;
+                settings.BoneId = 8;
                 G.s = settings;
 
                 Driver.Helper1.Init(27061);

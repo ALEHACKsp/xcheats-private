@@ -47,7 +47,7 @@ namespace apex
                 Vector3 LocalCamera = SDK.GetCamPos(localent, 1);
                 Vector3 ViewAngles = SDK.GetViewAngles(localent, 1);
                 Vector3 FeetPosition = SDK.GetEntityBasePosition(G.aimentity, 1);
-                Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, 8, FeetPosition, 1);
+                Vector3 HeadPosition = SDK.GetEntityBonePosition(G.aimentity, G.s.BoneId, FeetPosition, 1);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
 
                 if (G.s.RandomizeAim)

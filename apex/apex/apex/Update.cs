@@ -96,7 +96,7 @@ namespace apex
                 }
 
                 Vector3 FeetPosition = SDK.GetEntityBasePosition(centity, number);
-                Vector3 HeadPosition = SDK.GetEntityBonePosition(centity, 8, FeetPosition, number);
+                Vector3 HeadPosition = SDK.GetEntityBonePosition(centity, G.s.BoneId, FeetPosition, number);
                 Vector3 CalculatedAngles = SDK.CalcAngle(LocalCamera, HeadPosition);
                 //Vector3 Delta = (CalculatedAngles - ViewAngles);
 

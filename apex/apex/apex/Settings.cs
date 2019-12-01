@@ -45,5 +45,8 @@ namespace apex
 
         [DataMember]
         public bool RandomizeAim { get; set; }
+
+        [DataMember]
+        public int BoneId { get; set; }
     }
 }

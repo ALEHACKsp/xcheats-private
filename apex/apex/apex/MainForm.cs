@@ -107,6 +107,15 @@ namespace apex
             }
 
             G.s.RandomizeAim = materialCheckBox4.Checked;
+
+            if (materialRadioButton1.Checked)
+            {
+                G.s.BoneId = 8;
+            }
+            if (materialRadioButton2.Checked)
+            {
+                G.s.BoneId = 3;
+            }
         }
 
         private void LoadConfig()
@@ -128,6 +137,22 @@ namespace apex
             materialSingleLineTextField3.Text = G.s.DistanceMax.ToString();
 
             materialCheckBox4.Checked = G.s.RandomizeAim;
+
+            if (G.s.BoneId == 8)
+            {
+                materialRadioButton1.Checked = true;
+            } else
+            {
+                materialRadioButton1.Checked = false;
+            }
+            if (G.s.BoneId == 3)
+            {
+                materialRadioButton2.Checked = true;
+            }
+            else
+            {
+                materialRadioButton2.Checked = false;
+            }
         }
 
         private void RefreshList()
