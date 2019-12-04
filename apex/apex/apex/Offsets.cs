@@ -8,9 +8,9 @@ namespace apex
 {
     class Offsets
     {
-        public static ulong entitylist      = 0x1F33F58;
-        public static ulong local           = 0x1732B04;
-        public static ulong locale          = 0x22E93F8;
+        public static ulong entitylist      = 0x183e098;
+        public static ulong local           = 0x1038934;
+        public static ulong locale          = 0x1D99B18;
         
         public static ulong glowenable      = 0x390;
         public static ulong glowcontext     = 0x310;
@@ -24,8 +24,8 @@ namespace apex
 
         public static ulong origin          = 0x14C;
         public static ulong bones           = 0xEE0;
-        public static ulong aimpunch        = 0x20BC;
-        public static ulong camerapos       = 0x1B68;
+        public static ulong aimpunch        = 0x20C0;
+        public static ulong camerapos       = 0x1B64;
         public static ulong viewangles      = 0x2188;
 
     }

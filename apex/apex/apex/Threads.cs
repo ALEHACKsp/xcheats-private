@@ -151,6 +151,8 @@ namespace apex
                         continue;
                     }
 
+                    //Debug.DumpRegion(i.ToString() + "_dump.bin", centity, 0x1000);
+
                     int health = Driver.Helper1.Read<int>(centity + Offsets.health);
                     if (health < 1 || health > 100)
                         continue;

@@ -52,7 +52,9 @@ namespace apex
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.Text = RandomString(20);
+            int lenght = random.Next(1, 20);         
+            this.Text = RandomString(lenght);
+
             RefreshList();
             LoadConfig();
             

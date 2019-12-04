@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Debug.cs" />
     <Compile Include="G.cs" />
     <Compile Include="Helper1.cs" />
     <Compile Include="Helper2.cs" />
